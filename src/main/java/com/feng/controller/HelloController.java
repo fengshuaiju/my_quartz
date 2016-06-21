@@ -1,15 +1,14 @@
 package com.feng.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.feng.service.HelloService;
+import com.feng.util.Job;
 
 @RestController
 public class HelloController {
@@ -18,13 +17,14 @@ public class HelloController {
 	private HelloService helloService;
 	
 	@RequestMapping("/hello")
-	public List<String> toSay(){
+	public List<Job> toSay(){
 		
-		List<String> list = new ArrayList<String>();
-		list.add("StringName");
-		list.add("StringNamePackage");
-		list.add("String_name");
-		list.add("String4_name_package");
+		List<Job> list = new ArrayList<Job>();
+
+		for (int i = 0; i < 3; i++) {
+			Job jsb = new Job("smileName"+i, "goBus"+i);
+			list.add(jsb);
+		}
 		
 		return list;
 	}

@@ -8,51 +8,42 @@
 		http://www.springframework.org/schema/mvc 
 		http://www.springframework.org/schema/mvc/spring-mvc.xsd">
        
-       <import resource="spring-config.xml" />
+    <import resource="spring-config.xml" />
        
-    	<!-- MVC -->
+    <!-- MVC -->
+    <!-- <mvc:annotation-driven /> 会自动注册DefaultAnnotationHandlerMapping
+    	与AnnotationMethodHandlerAdapter 两个bean,是spring MVC为@Controllers分发请求所必须的 -->
 	<mvc:annotation-driven>
-	<mvc:argument-resolvers>
-		<bean
-			class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" />
-	</mvc:argument-resolvers>
-	<mvc:message-converters>
-		<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-		</bean>
-		<bean
-			class="org.springframework.http.converter.ResourceHttpMessageConverter" />
-
-		<bean
-			class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-			<property name="supportedMediaTypes">
-				<list>
-					<value>application/json;charset=UTF-8</value>
-					<value>text/html;charset=UTF-8</value>
-					<value>text/plain;charset=UTF-8</value>
-				</list>
-			</property>
-			<property name="objectMapper">
-				<bean class="com.fasterxml.jackson.databind.ObjectMapper">
-					<!-- <property name="propertyNamingStrategy">
-						<bean
-							class="com.fasterxml.jackson.databind.PropertyNamingStrategy"></bean>
-					</property> -->
-				</bean>
-			</property>
-		</bean>
-	</mvc:message-converters>
-</mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+			</bean>
+			<bean class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+						<value>text/html;charset=UTF-8</value>
+						<value>text/plain;charset=UTF-8</value>
+					</list>
+				</property>
+				<property name="objectMapper">
+					<bean class="com.fasterxml.jackson.databind.ObjectMapper"></bean>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
 
 
 
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<bean id="cnManager"
-		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	<bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<property name="favorPathExtension" value="true" />
 		<property name="ignoreAcceptHeader" value="true" />
 		<property name="defaultContentType" value="application/json" />
@@ -67,15 +58,4 @@
 		</property>
 	</bean>
     
-    
-    
-    
-    <!-- 
-   	<bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="3">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="contentType" value="text/html"/>      
-        <property name="prefix" value="/WEB-INF/jsp/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-     -->
 </beans>
