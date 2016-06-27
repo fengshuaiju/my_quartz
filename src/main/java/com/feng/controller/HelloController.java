@@ -12,8 +12,8 @@ import com.feng.service.HelloService;
 @RestController
 public class HelloController {
 	
-	@Autowired
-	private HelloService helloService;
+//	@Autowired
+//	private HelloService helloService;
 	
 	@RequestMapping("/hello")
 	public List<String> toSay(){
