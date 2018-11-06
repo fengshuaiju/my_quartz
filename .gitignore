@@ -1,0 +1,36 @@
+.gradle
+/build/
+/target/
+!gradle/wrapper/gradle-wrapper.jar
+.gradletasknamecache
+gradle-app.setting
+.*~
+*.log
+.DS_Store
+data/
+out/
+*.mv.db
+*.trace.db
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+target/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/

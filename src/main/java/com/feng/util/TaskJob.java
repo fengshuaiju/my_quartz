@@ -1,11 +1,15 @@
 package com.feng.util;
 
-import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-@Service  
-public class TaskJob {  
-      
-    public void job1() {  
-        System.out.println("任务进行中！！s11s！！！！ss");
-    }  
+@Slf4j
+@Component
+public class TaskJob {
+
+//    @Scheduled(cron = "0/5 * * * * ?")
+    public void job1() {
+        log.info("任务进行中！！s11s！！！！ss");
+    }
 }  
