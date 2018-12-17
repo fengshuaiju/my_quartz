@@ -44,7 +44,8 @@ public class PageAnalysis {
     }
 
 
-    public void analysisImageList(String listPageUrl) {
+    public Collection<String> analysisImageList(String listPageUrl) {
+        List<String> pageDetailsUrlList = new ArrayList<>();
         try {
             Document parse = Jsoup.parse(new URL(listPageUrl), 5000);
             Elements elements = parse.getElementsByClass("list");
@@ -55,14 +56,14 @@ public class PageAnalysis {
                     String title = atag.attr("title");
                     String href = atag.attr("href");
                     String date = atag.getElementsByTag("span").html();
-
-                    this.analysisImagePage(baseUrl + href);
+                    pageDetailsUrlList.add(baseUrl + href);
                 });
             });
             Thread.sleep(1000000);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return pageDetailsUrlList;
     }
 
 

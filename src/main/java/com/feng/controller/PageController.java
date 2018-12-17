@@ -23,40 +23,44 @@ import java.util.List;
 @Controller
 public class PageController {
 
-	@RequestMapping("/")
-	public ModelAndView toIndex(){
-		return new ModelAndView("index");
-	}
+    @RequestMapping("/")
+    public ModelAndView toIndex() {
+        return new ModelAndView("index");
+    }
 
-	@RequestMapping("/order/order")
-	public ModelAndView toOrder(){
-		return new ModelAndView("order/order");
-	}
+    @RequestMapping("/order/order")
+    public ModelAndView toOrder() {
+        return new ModelAndView("order/order");
+    }
 
-	@RequestMapping("/user/hello")
-	public ModelAndView toHello(){
-		return new ModelAndView("user/hello");
-	}
+    @RequestMapping("/user/hello")
+    public ModelAndView toHello() {
+        return new ModelAndView("user/hello");
+    }
 
+    @RequestMapping("/chat/chat")
+    public ModelAndView toChat() {
+        return new ModelAndView("chat/chat");
+    }
 
-	@GetMapping("/test1")
-	@ResponseBody
-	@JsonView(View.Client.class)
-	public Page<OceanFreightView> getDate1(@RequestParam(required = false) Day day, Pageable pageable){
+    @GetMapping("/test1")
+    @ResponseBody
+    @JsonView(View.Client.class)
+    public Page<OceanFreightView> getDate1(@RequestParam(required = false) Day day, Pageable pageable) {
         List<OceanFreightView> oceanFreightViews = Arrays.asList(new OceanFreightView("USD", "REMARKS", Arrays.asList(
                 new OceanFreightView.Price(0.3, 0.4, 0.6, 0.9),
                 new OceanFreightView.Price(1.3, 1.4, 1.6, 1.9)))
         );
 
         return new PageImpl<>(oceanFreightViews, pageable, 12);
-	}
+    }
 
-	@GetMapping("/test2")
-	@ResponseBody
-	@JsonView(View.Client.class)
-	public OceanFreightView getDate2(){
-		return new OceanFreightView("USD", "REMARKS", Arrays.asList(
-				new OceanFreightView.Price(0.3,0.4,0.6,0.9),
-				new OceanFreightView.Price(1.3,1.4,1.6,1.9)));
-	}
+    @GetMapping("/test2")
+    @ResponseBody
+    @JsonView(View.Client.class)
+    public OceanFreightView getDate2() {
+        return new OceanFreightView("USD", "REMARKS", Arrays.asList(
+                new OceanFreightView.Price(0.3, 0.4, 0.6, 0.9),
+                new OceanFreightView.Price(1.3, 1.4, 1.6, 1.9)));
+    }
 }

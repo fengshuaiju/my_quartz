@@ -11,17 +11,103 @@
     <el-dialog :visible.sync="visible" title="Hello world">
         <p>Try Element</p>
     </el-dialog>
+
+    <el-row>
+        <el-switch v-model="downLoad" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+        <el-input v-model="listPageUrl" placeholder="图片列表页"></el-input>
+        <el-input v-model="imageDetailsUrl" placeholder="图片详情页"></el-input>
+        <el-button @click="download">下载</el-button>
+    </el-row>
+
+
+    <el-row>
+        <el-input v-model="websocketData" placeholder="websocket"></el-input>
+        <el-button @click="websocketsend">发送</el-button>
+        <el-button @click="websocketclose">关闭</el-button>
+    </el-row>
+
 </div>
 </body>
 <!-- import Vue before Element -->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     new Vue({
         el: '#app',
         data: function () {
-            return {visible: false}
+            return {
+                visible: false,
+                downLoad: false,
+                listPageUrl: '',
+                imageDetailsUrl: '',
+
+
+                websocketData: '',
+
+                websock: null
+            }
+        },
+
+        created(){
+            //页面刚进入时开启长连接
+            this.initWebSocket()
+        },
+
+        destroyed: function() {
+            //页面销毁时关闭长连接
+            this.websocketclose();
+        },
+
+        methods: {
+            download: function () {
+                axios.get('http://127.0.0.1:8080/jsoup', {params: {'downLoad': this.downLoad, 'listPageUrl': this.listPageUrl, 'imageDetailsUrl': this.imageDetailsUrl}})
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+
+
+            initWebSocket: function () {
+                const wsuri = "ws://127.0.0.1:8080/websocket";//ws地址
+                this.websock = new WebSocket(wsuri);
+
+                this.websock.onopen = this.websocketonopen;
+                this.websock.onerror = this.websocketonerror;
+
+                this.websock.onmessage = this.websocketonmessage;
+                this.websock.onclose = this.websocketclose;
+            },
+
+
+            websocketonopen() {
+                console.log("WebSocket连接成功");
+            },
+            websocketonerror(e) { //错误
+                console.log("WebSocket连接发生错误");
+            },
+
+            websocketonmessage(e){ //数据接收
+                //注意：长连接我们是后台直接1秒推送一条数据，
+                //但是点击某个列表时，会发送给后台一个标识，后台根据此标识返回相对应的数据，
+                //这个时候数据就只能从一个出口出，所以让后台加了一个键，例如键为1时，是每隔1秒推送的数据，为2时是发送标识后再推送的数据，以作区分
+                console.log("后端回复数据：" + e.data);
+            },
+
+            websocketsend(){//数据发送
+                this.websock.send(this.websocketData);
+                this.websocketData = '';
+            },
+
+            websocketclose(e){ //关闭
+                console.log("connection closed (" + e.code + ")");
+            },
+
         }
     })
 </script>
